@@ -48,7 +48,10 @@ namespace Microsoft.AspNetCore.Builder
 
             return app;
         }
-
+        /// <summary>
+        /// 验证配置是否正确
+        /// </summary>
+        /// <param name="app"></param>
         internal static void Validate(this IApplicationBuilder app)
         {
             var loggerFactory = app.ApplicationServices.GetService(typeof(ILoggerFactory)) as ILoggerFactory;
@@ -79,7 +82,12 @@ namespace Microsoft.AspNetCore.Builder
                 ValidateAsync(serviceProvider, logger).GetAwaiter().GetResult();
             }
         }
-
+        /// <summary>
+        /// 验证认证方案配置是否正确
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="logger"></param>
+        /// <returns></returns>
         private static async Task ValidateAsync(IServiceProvider services, ILogger logger)
         {
             var options = services.GetRequiredService<IdentityServerOptions>();
@@ -117,7 +125,11 @@ namespace Microsoft.AspNetCore.Builder
                 logger.LogDebug("Using {scheme} as default ASP.NET Core scheme for forbid", (await schemes.GetDefaultForbidSchemeAsync())?.Name);
             }
         }
-
+        /// <summary>
+        /// 验证各种选项配置是否正确
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="logger"></param>
         private static void ValidateOptions(IdentityServerOptions options, ILogger logger)
         {
             if (options.IssuerUri.IsPresent()) logger.LogDebug("Custom IssuerUri set to {0}", options.IssuerUri);
